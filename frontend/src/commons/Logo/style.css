@@ -1,0 +1,32 @@
+.logo-wrapper {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  width: fit-content;
+  height: fit-content;
+  align-items: center;
+}
+
+.logo-img {
+  width: 22px;
+  margin-right: 5px;
+}
+
+.logo-text {
+  font-family: "Barlow Condensed";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+@media only screen and (min-device-width: 768px) {
+  .logo-img {
+    width: 32px;
+  }
+  .logo-text {
+    font-size: 40px;
+    line-height: 40px;
+  }
+}

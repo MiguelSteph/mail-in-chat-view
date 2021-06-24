@@ -1,0 +1,128 @@
+.gray-div {
+  position: absolute;
+  width: 50%;
+  height: 400px;
+  border-bottom-left-radius: 60px;
+  background-color: #edf2f6;
+  top: 0;
+  right: 0;
+  z-index: -10;
+}
+
+.presentation-section-wrapper {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.presentation-text-header {
+  font-family: "Barlow Condensed";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.presentation-text-content {
+  font-family: "Barlow";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0px;
+  text-align: left;
+
+  opacity: 75%;
+  mix-blend-mode: normal;
+}
+
+.presentation-text {
+  order: 2;
+  flex: 0 0 100%;
+}
+
+.presentation-img {
+  width: 100%;
+}
+
+.presentation-img-wrapper {
+  order: 1;
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+.presentation-header-section {
+  margin-bottom: 32px;
+  margin-top: 48px;
+}
+
+.presentation-text-section {
+  margin-bottom: 32px;
+}
+
+.presentation-login-button-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+}
+
+.mobile-only-center-block {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mobile-only-center-text {
+  text-align: center;
+}
+
+@media only screen and (min-device-width: 768px) {
+  .mobile-only-center-text {
+    text-align: left;
+  }
+
+  .presentation-text {
+    margin-right: 5%;
+    flex: 0 0 45%;
+    max-width: 470px;
+    order: 1;
+  }
+
+  .presentation-img-wrapper {
+    order: 2;
+    flex: 1 0 50%;
+  }
+
+  .presentation-text-content {
+    max-width: 266px;
+  }
+
+  .presentation-text-header {
+    font-size: 64px;
+    line-height: 64px;
+  }
+
+  .presentation-header-section {
+    margin-bottom: 48px;
+    margin-top: 0;
+  }
+
+  .presentation-text-section {
+    margin-bottom: 48px;
+  }
+
+  .presentation-login-button-wrapper {
+    margin-left: 0;
+    margin-right: auto;
+    width: fit-content;
+  }
+
+  .mobile-only-center-block {
+    width: fit-content;
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
