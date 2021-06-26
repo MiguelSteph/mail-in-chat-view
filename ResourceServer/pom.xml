@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mailchatview</groupId>
-    <artifactId>backend</artifactId>
+    <artifactId>ResourceServer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend</name>
+    <name>ResourceServer</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>

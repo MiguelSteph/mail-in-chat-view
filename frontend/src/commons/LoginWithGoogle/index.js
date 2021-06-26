@@ -2,21 +2,19 @@ import React, { useEffect } from "react";
 import "./style.css";
 
 const LoginWithGoogle = ({ buttonId }) => {
+  let auth2;
   useEffect(() => {
     window.gapi.load("auth2", () => {
-      const auth2 = window.gapi.auth2.init({
+      auth2 = window.gapi.auth2.init({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         scope: "https://www.googleapis.com/auth/gmail.readonly",
       });
-      const btnElement = document.getElementById(buttonId);
-      auth2.attachClickHandler(
-        btnElement,
-        {},
-        onSuccessHandler,
-        onFailureHandler
-      );
     });
   }, []);
+
+  const handleClickEvent = () => {
+    auth2.grantOfflineAccess().then(onSuccessHandler, onFailureHandler);
+  };
 
   const onSuccessHandler = (response) => {
     console.log("Logging google response", response);
@@ -27,7 +25,11 @@ const LoginWithGoogle = ({ buttonId }) => {
   };
 
   return (
-    <button id={buttonId} className="login-with-google">
+    <button
+      onClick={handleClickEvent}
+      id={buttonId}
+      className="login-with-google"
+    >
       <i className="fab fa-google fa-1x"></i>
       <span className="login-with-google-btn-text">Login with Google</span>
     </button>
