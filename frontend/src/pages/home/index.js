@@ -20,7 +20,7 @@ const Home = () => {
             </p>
           </div>
           <div className="presentation-login-button-wrapper">
-            <LoginWithGoogle />
+            <LoginWithGoogle buttonId="loginWithGoogleFromHomePage" />
           </div>
         </div>
         <div className="presentation-img-wrapper">

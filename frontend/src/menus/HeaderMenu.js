@@ -7,7 +7,7 @@ const HeaderMenu = () => {
   return (
     <nav>
       <Logo />
-      <LoginWithGoogle />
+      <LoginWithGoogle buttonId="loginWithGoogleFromNavBar" />
     </nav>
   );
 };
