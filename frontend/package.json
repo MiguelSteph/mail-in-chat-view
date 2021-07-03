@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/react-router": "^5.1.15",
+    "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",

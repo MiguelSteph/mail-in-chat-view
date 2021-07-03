@@ -9,6 +9,7 @@ CREATE TABLE user (
     picture_url varchar(255),
     access_token varchar(255),
     refresh_token varchar(255),
+    token_expiration_timestamp bigint,
     created_time datetime,
     PRIMARY KEY (id),
     UNIQUE(user_id)

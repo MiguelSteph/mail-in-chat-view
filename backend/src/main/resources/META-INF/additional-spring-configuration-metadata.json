@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "jwt.access-token.validity",
+      "type": "java.lang.Integer",
+      "description": "Description for jwt.access-token.validity."
+    },
+    {
+      "name": "jwt.refresh-token.validity",
+      "type": "java.lang.Integer",
+      "description": "Description for jwt.refresh-token.validity."
+    }
+  ] }

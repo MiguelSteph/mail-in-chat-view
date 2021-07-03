@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./style.css";
+import userService from "../../services/userService";
 
 const LoginWithGoogle = ({ buttonId }) => {
   let auth2;
@@ -18,6 +19,7 @@ const LoginWithGoogle = ({ buttonId }) => {
 
   const onSuccessHandler = (response) => {
     console.log("Logging google response", response);
+    userService.userLoginWithGoogle(response.code);
   };
 
   const onFailureHandler = (error) => {
