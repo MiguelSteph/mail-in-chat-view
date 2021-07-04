@@ -7,4 +7,5 @@ import com.mailchatview.backend.entities.User;
 public interface UserService {
     User createUser(UserDto userDto, GoogleTokensDto googleTokensDto);
     User findByUsername(String username);
+    User updateUser(User user, GoogleTokensDto googleTokensDto);
 }

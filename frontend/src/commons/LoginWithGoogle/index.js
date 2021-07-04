@@ -20,6 +20,7 @@ const LoginWithGoogle = ({ buttonId }) => {
   const onSuccessHandler = (response) => {
     console.log("Logging google response", response);
     userService.userLoginWithGoogle(response.code);
+    
   };
 
   const onFailureHandler = (error) => {

@@ -23,10 +23,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(User user, GoogleTokensDto googleTokensDto) {
+        user.setAccessToken(googleTokensDto.getAccessToken());
+        user.setRefreshToken(googleTokensDto.getRefreshToken());
+        user.setTokenExpirationTimestamp(googleTokensDto.getAccessTokenExpiredTimestamp());
+        return userRepo.save(user);
+    }
+
+    @Override
     public User createUser(UserDto userDto, GoogleTokensDto googleTokensDto) {
         Optional<User> existingUserOpt = userRepo.findByUserId(userDto.getUserId());
 
         if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+            if (!existingUser.getAccessToken().equals(googleTokensDto.getAccessToken())
+                    || !existingUser.getRefreshToken().equals(googleTokensDto.getRefreshToken())) {
+                return updateUser(existingUser, googleTokensDto);
+            }
             return existingUserOpt.get();
         }
 

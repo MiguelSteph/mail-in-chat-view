@@ -3,18 +3,21 @@ package com.mailchatview.backend.services.mail.impl;
 import com.google.api.client.googleapis.auth.oauth2.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.mailchatview.backend.configurations.GoogleCredentials;
+import com.google.api.services.gmail.GmailScopes;
+import com.mailchatview.backend.configurations.LocalGoogleCredentials;
 import com.mailchatview.backend.dtos.GoogleTokensDto;
 import com.mailchatview.backend.dtos.UserDto;
 import com.mailchatview.backend.services.mail.GoogleApiOAuthAdapter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @AllArgsConstructor
 public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
 
-    private final GoogleCredentials credentials;
+    private final LocalGoogleCredentials credentials;
 
     @Override
     public GoogleTokensDto exchangeAuthCodeWithToken(String authCode) {
@@ -58,6 +61,7 @@ public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
                     System.currentTimeMillis() + tokenResponse.getExpiresInSeconds() * 1000
             );
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new RuntimeException(ex);
         }
     }

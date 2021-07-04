@@ -18,3 +18,6 @@ jwt:
     validity: 18000
   refresh-token:
     validity: 1209600
+
+mail-fetch:
+  max-result: 20

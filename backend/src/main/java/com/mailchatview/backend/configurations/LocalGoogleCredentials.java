@@ -12,7 +12,7 @@ import java.util.List;
 @PropertySource("classpath:google-credentials.properties")
 @ConfigurationProperties(prefix = "web")
 @Data
-public class GoogleCredentials {
+public class LocalGoogleCredentials {
 
     @Value("${google.web.id}")
     private String id;
