@@ -1,10 +1,11 @@
+import React from "react";
 import { Route, Switch } from "react-router";
 import "./App.css";
 import HeaderMenu from "./menus/HeaderMenu";
 import routing from "./routing";
 import Footer from "./menus/FooterPage";
 
-function App() {
+const App = () => {
   return (
     <>
       <div className="container">
@@ -28,6 +29,6 @@ function App() {
       </footer>
     </>
   );
-}
+};
 
 export default App;

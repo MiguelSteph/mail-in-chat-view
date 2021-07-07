@@ -2,25 +2,31 @@ import React, { useEffect } from "react";
 import "./style.css";
 import userService from "../../services/userService";
 
-const LoginWithGoogle = ({ buttonId }) => {
+const LoginWithGoogle = ({ buttonId, handleSuccessfullLogin }) => {
   let auth2;
   useEffect(() => {
+    loadGoogleApi();
+  }, []);
+
+  const loadGoogleApi = () => {
     window.gapi.load("auth2", () => {
       auth2 = window.gapi.auth2.init({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         scope: "https://www.googleapis.com/auth/gmail.readonly",
       });
     });
-  }, []);
+  };
 
   const handleClickEvent = () => {
+    if (!auth2) {
+      loadGoogleApi();
+    }
     auth2.grantOfflineAccess().then(onSuccessHandler, onFailureHandler);
   };
 
-  const onSuccessHandler = (response) => {
-    console.log("Logging google response", response);
-    userService.userLoginWithGoogle(response.code);
-    
+  const onSuccessHandler = async (response) => {
+    await userService.userLoginWithGoogle(response.code);
+    handleSuccessfullLogin();
   };
 
   const onFailureHandler = (error) => {
