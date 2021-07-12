@@ -1,0 +1,50 @@
+.customize-input-text {
+  border-radius: 50px !important;
+  color: #00252e;
+
+  font-family: "Barlow";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.fetch-btn {
+  width: 100%;
+  font-family: "Barlow Condensed" !important;
+  font-size: 14px !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  letter-spacing: 0.9333333373069763px;
+}
+
+.search-config-wrapper {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: repeat(3, auto);
+  row-gap: 10px;
+}
+
+.error-date-range {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+}
+
+@media only screen and (min-device-width: 768px) {
+  .search-config-wrapper {
+    display: grid;
+    grid-template-columns: 40% 20% 10%;
+    grid-template-rows: 100%;
+    column-gap: 10px;
+  }
+
+  .fetch-btn {
+    width: auto;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.0666667222976685px;
+  }
+}

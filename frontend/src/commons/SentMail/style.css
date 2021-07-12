@@ -1,0 +1,72 @@
+.sent-mail-wrapper {
+  width: 80%;
+  margin-right: auto;
+  margin-left: 0;
+  margin-bottom: 16px;
+
+  background-color: #aaafb3;
+  color: #00252e;
+}
+
+.full-message-section {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.display-linebreak {
+  white-space: pre-line;
+}
+
+.modal-dialog {
+  max-width: 80% !important;
+}
+
+@media only screen and (min-device-width: 768px) {
+  .s-snippet-section {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+  }
+
+  .modal-dialog {
+    max-width: 70% !important;
+  }
+
+  .sent-content {
+    font-family: "Barlow";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+
+  .sent-title-content {
+    font-family: "Barlow Condensed";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 1px;
+  }
+
+  .sent-strong-title {
+    font-family: "Barlow Condensed" !important;
+    font-size: 15px !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    line-height: 18px !important;
+    letter-spacing: 1px !important;
+    text-align: right !important;
+    color: #bc4747 !important;
+  }
+
+  .sent-mail-wrapper {
+    width: 60%;
+    margin-bottom: 20px;
+    border-radius: 50px;
+    padding: 20px;
+  }
+}

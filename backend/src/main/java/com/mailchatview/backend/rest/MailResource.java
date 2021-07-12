@@ -7,10 +7,7 @@ import com.mailchatview.backend.services.UserService;
 import com.mailchatview.backend.services.mail.MailFetchService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RestController
 @AllArgsConstructor

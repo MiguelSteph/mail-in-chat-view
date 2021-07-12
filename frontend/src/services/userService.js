@@ -30,11 +30,11 @@ const userLoginWithGoogle = async (authCode) => {
 };
 
 const renewAccessToken = async () => {
-  clearTokenFromLocalStorage();
   const { data } = await axios.post(
     config.renewAccessTokenEndPoint,
     encodeURIComponent(getRefreshToken())
   );
+  clearTokenFromLocalStorage();
   if (data && data.accessToken) saveTokenToLocalStorage(data);
 };
 
@@ -53,7 +53,7 @@ const currentUser = () => {
 
 const isTokenExpired = () => {
   const decodedJwt = jwtDecode(getAccessToken());
-  return decodedJwt.exp - 5000 <= new Date().getMilliseconds();
+  return (decodedJwt.exp - 5000) * 1000 <= new Date().getTime();
 };
 
 export default {
@@ -63,4 +63,5 @@ export default {
   currentUser,
   renewAccessToken,
   logout,
+  getAccessToken,
 };

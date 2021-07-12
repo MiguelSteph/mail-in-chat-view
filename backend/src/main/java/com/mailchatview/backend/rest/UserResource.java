@@ -36,6 +36,7 @@ public class UserResource {
 
     @PostMapping("/auth/token")
     public TokenDto renewAccessToken(@RequestBody String bearerToken) {
+        bearerToken = URLDecoder.decode(bearerToken, StandardCharsets.UTF_8);
         if (jwtTokenUtil.isTokenExpired(bearerToken)) {
             throw new ExpiredTokenException("Refresh toke expired. Please login again");
         }

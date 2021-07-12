@@ -1,7 +1,7 @@
 package com.mailchatview.backend.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,9 +12,11 @@ public class MailDto {
     private String from;
     private final List<String> to = new ArrayList<>();
     private final List<String> mailAttachments = new ArrayList<>();
+    private String snippet;
     private String content;
     private String subject;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private String contentType;
+    @JsonFormat(pattern = "yyyy-MM-dd 'at' HH:mm:ss")
     private LocalDateTime dateTime;
     private final List<String> ccs = new ArrayList<>();
 }

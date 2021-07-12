@@ -24,8 +24,8 @@ public class JwtTokenUtil {
     @Value("${jwt.refresh-token.validity}")
     private int refreshTokenValidityInSeconds;
 
-//    private final String secretKey = "secretkeyjngjbvngjbgvbjsdgjbgjbgbjgsfbkgjbdgsbjsdgbgdjbgdsjbgdsfbjgbjgfjfdvvjgkbgjfbvsgjkbgfsdaqqfnefnrdfjvsfdjvdfnv";
-    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private final String secretKey = "secretkeyjngjbvngjbgvbjsdgjbgjbgbjgsfbkgjbdgsbjsdgbgdjbgdsjbgdsfbjgbjgfjfdvvjgkbgjfbvsgjkbgfsdaqqfnefnrdfjvsfdjvdfnv";
+//    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -65,8 +65,8 @@ public class JwtTokenUtil {
                 .setIssuer("MailChatViewApplication")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expirationDate)
-//                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .signWith(secretKey, SignatureAlgorithm.HS512)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+//                .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
 

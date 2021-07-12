@@ -1,0 +1,30 @@
+.mail-read-wrapper {
+  min-height: 400px;
+}
+
+.loader-wrapper {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+}
+
+.load-more {
+  margin-top: 16px;
+}
+
+.load-more-btn {
+  font-family: "Barlow Condensed";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 1px;
+
+  width: 100%;
+  color: dodgerblue !important;
+}
+
+.disable-div {
+  pointer-events: none;
+  opacity: 0.7;
+}
