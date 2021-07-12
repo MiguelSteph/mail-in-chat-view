@@ -8,8 +8,8 @@ const FetchMailResult = ({ mailsList }) => {
   return (
     <div className="fetch-result-wrapper">
       {!mailsList && (
-        <div class="alert alert-dark" role="alert">
-          No mails to display.
+        <div className="alert alert-dark" role="alert">
+          No mail to display.
         </div>
       )}
 

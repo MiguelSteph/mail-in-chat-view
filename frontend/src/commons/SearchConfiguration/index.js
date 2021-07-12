@@ -77,6 +77,10 @@ const SearchConfiguration = ({ handleFetchRequest }) => {
             selectsRange={true}
             startDate={startDate}
             endDate={endDate}
+            maxDate={new Date()}
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
             onChange={(update) => {
               setDateRange(update);
               if (update[0] == null || update[1] == null) {
@@ -85,7 +89,6 @@ const SearchConfiguration = ({ handleFetchRequest }) => {
                 setDateRangeError(false);
               }
             }}
-            withPortal
           />
           {dateRangeError && (
             <div className="error-date-range">
