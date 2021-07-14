@@ -112,7 +112,8 @@ public class MailFetchServiceImpl implements MailFetchService {
         }
     }
 
-    private List<Message> batchFetchMessageContent(Gmail gmail, User user, List<Message> partialMessages) throws Exception {
+    private List<Message> batchFetchMessageContent(Gmail gmail, User user,
+                                                   List<Message> partialMessages) throws Exception {
         if (partialMessages == null) {
             return Collections.emptyList();
         }
@@ -132,7 +133,8 @@ public class MailFetchServiceImpl implements MailFetchService {
 
         BatchRequest batchRequest = gmail.batch();
         for (Message partialMessage : partialMessages) {
-            gmail.users().messages().get(user.getUserId(), partialMessage.getId()).setFormat("full").queue(batchRequest, callback);
+            gmail.users().messages().get(user.getUserId(),
+                    partialMessage.getId()).setFormat("full").queue(batchRequest, callback);
         }
         batchRequest.execute();
         return fullMessageList;
@@ -203,7 +205,7 @@ public class MailFetchServiceImpl implements MailFetchService {
         String refreshToken = user.getRefreshToken();
 
         if (isUserAccessTokenExpired(user)) {
-            GoogleTokensDto googleTokensDto = reviewToken(user);
+            GoogleTokensDto googleTokensDto = renewToken(user);
             accessToken = googleTokensDto.getAccessToken();
             refreshToken = googleTokensDto.getRefreshToken();
         }
@@ -216,11 +218,13 @@ public class MailFetchServiceImpl implements MailFetchService {
                 .build();
     }
 
-    private Credential credential(final NetHttpTransport HTTP_TRANSPORT, String accessToken, String refreshToken) {
+    private Credential credential(final NetHttpTransport HTTP_TRANSPORT,
+                                  String accessToken, String refreshToken) {
         return new Credential.Builder(BearerToken.authorizationHeaderAccessMethod())
                 .setTransport(HTTP_TRANSPORT)
                 .setJsonFactory(JacksonFactory.getDefaultInstance())
-                .setClientAuthentication(new ClientParametersAuthentication(localGoogleCredentials.getId(), localGoogleCredentials.getSecret()))
+                .setClientAuthentication(new ClientParametersAuthentication(localGoogleCredentials.getId(),
+                        localGoogleCredentials.getSecret()))
                 .setTokenServerEncodedUrl(localGoogleCredentials.getTokenUri())
                 .build()
                 .setAccessToken(accessToken)
@@ -231,7 +235,7 @@ public class MailFetchServiceImpl implements MailFetchService {
         return System.currentTimeMillis() > user.getTokenExpirationTimestamp() + TOKEN_EXPIRATION_DELAY_MILLIS;
     }
 
-    private GoogleTokensDto reviewToken(User user) {
+    private GoogleTokensDto renewToken(User user) {
         GoogleTokensDto googleTokensDto = googleApiOAuthAdapter.renewAccessAndRefreshToken(user.getRefreshToken());
         userService.updateUser(user, googleTokensDto);
         return googleTokensDto;

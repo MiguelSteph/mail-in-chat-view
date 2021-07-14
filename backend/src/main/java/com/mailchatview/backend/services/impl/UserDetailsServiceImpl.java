@@ -2,7 +2,6 @@ package com.mailchatview.backend.services.impl;
 
 import com.mailchatview.backend.entities.User;
 import com.mailchatview.backend.repo.UserRepo;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

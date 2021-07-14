@@ -36,7 +36,7 @@
 @media only screen and (min-device-width: 768px) {
   .search-config-wrapper {
     display: grid;
-    grid-template-columns: 40% 20% 10%;
+    grid-template-columns: 40% 18% 10%;
     grid-template-rows: 100%;
     column-gap: 10px;
   }

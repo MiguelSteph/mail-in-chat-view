@@ -7,7 +7,6 @@ spring:
   datasource:
     username: mailChatViewAppUser
     url: jdbc:mysql://localhost:3306/mailChatViewDb
-    password: yx7oZA9QpomHBWnh
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect

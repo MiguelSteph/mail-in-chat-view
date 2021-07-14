@@ -10,7 +10,6 @@ import com.mailchatview.backend.exceptions.InvalidTokenException;
 import com.mailchatview.backend.services.UserService;
 import com.mailchatview.backend.services.mail.GoogleApiOAuthAdapter;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
@@ -28,7 +27,8 @@ public class UserResource {
 
     @PostMapping("/login")
     public TokenDto login(@RequestBody String authCode) {
-        GoogleTokensDto googleTokensDto = googleApiOAuthAdapter.exchangeAuthCodeWithToken(URLDecoder.decode(authCode, StandardCharsets.UTF_8));
+        GoogleTokensDto googleTokensDto = googleApiOAuthAdapter.exchangeAuthCodeWithToken(
+                URLDecoder.decode(authCode, StandardCharsets.UTF_8));
         UserDto userDto = googleApiOAuthAdapter.getUserProfile(googleTokensDto.getIdToken());
         User user = userService.createUser(userDto, googleTokensDto);
         return createTokens(user);
