@@ -56,6 +56,11 @@ const isTokenExpired = () => {
   return (decodedJwt.exp - 5000) * 1000 <= new Date().getTime();
 };
 
+const googleClientInfo = async () => {
+  const { data } = await axios.get(config.googleClientInfoEndPoint);
+  return data;
+};
+
 export default {
   userLoginWithGoogle,
   isLogged,
@@ -64,4 +69,5 @@ export default {
   renewAccessToken,
   logout,
   getAccessToken,
+  googleClientInfo,
 };

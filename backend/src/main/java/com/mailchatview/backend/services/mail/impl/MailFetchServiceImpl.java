@@ -16,15 +16,16 @@ import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.MessagePart;
 import com.google.api.services.gmail.model.MessagePartHeader;
-import com.mailchatview.backend.configurations.LocalGoogleCredentials;
 import com.mailchatview.backend.dtos.FetchQueryDto;
 import com.mailchatview.backend.dtos.FetchResultPage;
 import com.mailchatview.backend.dtos.GoogleTokensDto;
 import com.mailchatview.backend.dtos.MailDto;
 import com.mailchatview.backend.entities.User;
+import com.mailchatview.backend.repo.GoogleClientCredentialsRepo;
 import com.mailchatview.backend.services.UserService;
 import com.mailchatview.backend.services.mail.GoogleApiOAuthAdapter;
 import com.mailchatview.backend.services.mail.MailFetchService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class MailFetchServiceImpl implements MailFetchService {
 
     private static final long TOKEN_EXPIRATION_DELAY_MILLIS = 5_000L;
@@ -65,14 +67,14 @@ public class MailFetchServiceImpl implements MailFetchService {
     @Value("${mail-fetch.max-result}")
     private int maxResult;
 
-    private final LocalGoogleCredentials localGoogleCredentials;
+    private final GoogleClientCredentialsRepo googleClientCredentialsRepo;
     private final UserService userService;
     private final GoogleApiOAuthAdapter googleApiOAuthAdapter;
 
-    public MailFetchServiceImpl(LocalGoogleCredentials localGoogleCredentials,
+    public MailFetchServiceImpl(GoogleClientCredentialsRepo googleClientCredentialsRepo,
                                 UserService userService,
                                 GoogleApiOAuthAdapter googleApiOAuthAdapter) {
-        this.localGoogleCredentials = localGoogleCredentials;
+        this.googleClientCredentialsRepo = googleClientCredentialsRepo;
         this.userService = userService;
         this.googleApiOAuthAdapter = googleApiOAuthAdapter;
     }
@@ -82,12 +84,13 @@ public class MailFetchServiceImpl implements MailFetchService {
         try {
             Gmail gmail = getGmailService(user);
 
-            System.out.println(getSearchQueryString(user, fetchQuery));
+            final String query = getSearchQueryString(user, fetchQuery);
+            log.info("Fetch Mails Query: " + query);
             Gmail.Users.Messages.List listRequest = gmail.users()
                     .messages()
                     .list(user.getUserId())
                     .setMaxResults((long) maxResult)
-                    .setQ(getSearchQueryString(user, fetchQuery));
+                    .setQ(query);
 
             if (fetchQuery.getPageToken() != null) {
                 listRequest = listRequest.setPageToken(fetchQuery.getPageToken());
@@ -108,6 +111,7 @@ public class MailFetchServiceImpl implements MailFetchService {
 
             return fetchResultPage;
         } catch (Exception ex) {
+            log.error("Failed to fetch mails", ex);
             throw new RuntimeException(ex);
         }
     }
@@ -214,7 +218,7 @@ public class MailFetchServiceImpl implements MailFetchService {
                 HTTP_TRANSPORT,
                 JSON_FACTORY,
                 credential(HTTP_TRANSPORT, accessToken, refreshToken))
-                .setApplicationName(localGoogleCredentials.getProjectId())
+                .setApplicationName(googleClientCredentialsRepo.getProjectId())
                 .build();
     }
 
@@ -223,9 +227,9 @@ public class MailFetchServiceImpl implements MailFetchService {
         return new Credential.Builder(BearerToken.authorizationHeaderAccessMethod())
                 .setTransport(HTTP_TRANSPORT)
                 .setJsonFactory(JacksonFactory.getDefaultInstance())
-                .setClientAuthentication(new ClientParametersAuthentication(localGoogleCredentials.getId(),
-                        localGoogleCredentials.getSecret()))
-                .setTokenServerEncodedUrl(localGoogleCredentials.getTokenUri())
+                .setClientAuthentication(new ClientParametersAuthentication(googleClientCredentialsRepo.getClientId(),
+                        googleClientCredentialsRepo.getClientSecret()))
+                .setTokenServerEncodedUrl(googleClientCredentialsRepo.getTokenUri())
                 .build()
                 .setAccessToken(accessToken)
                 .setRefreshToken(refreshToken);

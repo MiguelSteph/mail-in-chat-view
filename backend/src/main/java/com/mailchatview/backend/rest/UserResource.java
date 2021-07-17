@@ -1,6 +1,7 @@
 package com.mailchatview.backend.rest;
 
 import com.mailchatview.backend.configurations.JwtTokenUtil;
+import com.mailchatview.backend.dtos.GoogleClientInfo;
 import com.mailchatview.backend.dtos.GoogleTokensDto;
 import com.mailchatview.backend.dtos.TokenDto;
 import com.mailchatview.backend.dtos.UserDto;
@@ -24,6 +25,11 @@ public class UserResource {
     private final GoogleApiOAuthAdapter googleApiOAuthAdapter;
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
+
+    @GetMapping("/google/client/info")
+    public GoogleClientInfo googleClientInfo() {
+        return googleApiOAuthAdapter.getGoogleClientInfo();
+    }
 
     @PostMapping("/login")
     public TokenDto login(@RequestBody String authCode) {

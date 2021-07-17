@@ -1,6 +1,7 @@
 package com.mailchatview.backend.configurations;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
         securedEnabled = true
 )
 @AllArgsConstructor
+@Slf4j
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -49,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http = http.exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, exception) -> {
+                            log.error("Ops", exception);
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
                         }).and();
 

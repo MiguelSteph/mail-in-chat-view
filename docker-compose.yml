@@ -1,0 +1,47 @@
+version: '3.1'
+
+secrets:
+  secret_mysql_root_password:
+    external: true
+  secret_mysql_password: 
+    external: true
+  secret_google_client_credentials:
+    external: true
+
+services:
+  mysqlServer:
+    image: mysql:5.7
+    volumes: 
+      - ./database:/docker-entrypoint-initdb.d
+    ports: 
+      - "3306:3306"
+    secrets: 
+      - secret_mysql_root_password
+      - secret_mysql_password
+    environment: 
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/secret_mysql_root_password
+      - MYSQL_DATABASE=mailChatViewDb
+      - MYSQL_USER=mailChatViewAppUser
+      - MYSQL_PASSWORD_FILE=/run/secrets/secret_mysql_password
+
+  backendServer:
+    image: mail-chat-view_backend-server
+    build: ./backend
+    ports: 
+      - 9090:9090
+    depends_on: 
+      - mysqlServer
+    secrets:
+      - secret_mysql_password
+      - secret_google_client_credentials
+    environment: 
+      - GOOGLE_CLIENT_CREDENTIALS=/run/secrets/secret_google_client_credentials
+      - MYSQL_DATABASE_PASSWORD=/run/secrets/secret_mysql_password
+
+  frontendServer:
+    image: mail-chat-view_frontend-server
+    build: ./frontend
+    ports: 
+      - 80:80
+    depends_on: 
+      - backendServer

@@ -8,11 +8,12 @@ const LoginWithGoogle = ({ buttonId, handleSuccessfullLogin }) => {
     loadGoogleApi();
   }, []);
 
-  const loadGoogleApi = () => {
+  const loadGoogleApi = async () => {
+    const gClientInfo = await userService.googleClientInfo();
     window.gapi.load("auth2", () => {
       auth2 = window.gapi.auth2.init({
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        scope: "https://www.googleapis.com/auth/gmail.readonly",
+        client_id: gClientInfo.clientId,
+        scope: gClientInfo.scope,
       });
     });
   };

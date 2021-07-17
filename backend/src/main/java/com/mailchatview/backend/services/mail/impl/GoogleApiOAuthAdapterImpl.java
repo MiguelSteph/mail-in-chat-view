@@ -3,18 +3,29 @@ package com.mailchatview.backend.services.mail.impl;
 import com.google.api.client.googleapis.auth.oauth2.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.mailchatview.backend.configurations.LocalGoogleCredentials;
+import com.mailchatview.backend.dtos.GoogleClientInfo;
 import com.mailchatview.backend.dtos.GoogleTokensDto;
 import com.mailchatview.backend.dtos.UserDto;
+import com.mailchatview.backend.repo.GoogleClientCredentialsRepo;
 import com.mailchatview.backend.services.mail.GoogleApiOAuthAdapter;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
 
-    private final LocalGoogleCredentials credentials;
+    private final GoogleClientCredentialsRepo credentials;
+
+    @Override
+    public GoogleClientInfo getGoogleClientInfo() {
+        GoogleClientInfo info = new GoogleClientInfo();
+        info.setClientId(credentials.getClientId());
+        info.setScope(credentials.getScope());
+        return info;
+    }
 
     @Override
     public GoogleTokensDto exchangeAuthCodeWithToken(String authCode) {
@@ -24,10 +35,10 @@ public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
                             new NetHttpTransport(),
                             JacksonFactory.getDefaultInstance(),
                             credentials.getTokenUri(),
-                            credentials.getId(),
-                            credentials.getSecret(),
+                            credentials.getClientId(),
+                            credentials.getClientSecret(),
                             authCode,
-                            credentials.getRedirectUris().get(0))
+                            credentials.getRedirectUri())
                             .execute();
 
             return new GoogleTokensDto(
@@ -37,6 +48,7 @@ public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
                     System.currentTimeMillis() + tokenResponse.getExpiresInSeconds() * 1000
             );
         } catch (Exception ex) {
+            log.error("Failed to exchange Authorization code with token", ex);
             throw new RuntimeException(ex);
         }
     }
@@ -48,8 +60,8 @@ public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
                     new NetHttpTransport(),
                     JacksonFactory.getDefaultInstance(),
                     refreshToken,
-                    credentials.getId(),
-                    credentials.getSecret())
+                    credentials.getClientId(),
+                    credentials.getClientSecret())
                     .execute();
             return new GoogleTokensDto(
                     tokenResponse.getAccessToken(),
@@ -58,7 +70,7 @@ public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
                     System.currentTimeMillis() + tokenResponse.getExpiresInSeconds() * 1000
             );
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Failed to renew access token", ex);
             throw new RuntimeException(ex);
         }
     }
@@ -76,6 +88,7 @@ public class GoogleApiOAuthAdapterImpl implements GoogleApiOAuthAdapter {
             userDto.setFamilyName((String) payload.get("family_name"));
             return userDto;
         } catch (Exception ex) {
+            log.error("Failed to parse google token to get user profile", ex);
             throw new RuntimeException(ex);
         }
     }
