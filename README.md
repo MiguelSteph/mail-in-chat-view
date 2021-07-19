@@ -18,7 +18,10 @@
 Today Email is the most widely used tool for business communication. It is the most immediate method of communication for many professionals. We read at least 40-50 emails a day on an average. And it would be easier if we can read our emails just as we read a conversation on messenger or on whatapps. So I decided to create EasyRead to display emails communication like messenger or whatapps conversations.
 
 ## <a id="projectDemo">2- Project Demo</a>
-<Drap and drop the video on github>
+
+
+https://user-images.githubusercontent.com/18254405/126127710-7ca5677e-ef73-48cd-8879-23a07fd59aef.mp4
+
 
 ## <a id="runThisProject">3- Run this project</a>
 ### <a id="prerequisites">3-1- Prerequisites</a>
