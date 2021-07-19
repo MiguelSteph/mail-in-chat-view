@@ -39,7 +39,7 @@ The output of this step is the OAuth2 client credentials file. The schema of the
 ### <a id="step2">3-3- Create the required Docker secrets</a>
 The project expects three docker secrets: 
 
- - **secret_google_client_credentials**: This secret should contains the OAuth2 client credentials. The expected format is shown at the [Step 1](#step1). \
+ - **secret_google_client_credentials**: This secret should contains the OAuth2 client credentials. The expected format is shown at the [previous step](#step1). \
  Use bellow command to create this secret: \
  ` docker create secret secret_google_client_credentials PATH_TO_THE_CREDENTIALS_FILE `
  
