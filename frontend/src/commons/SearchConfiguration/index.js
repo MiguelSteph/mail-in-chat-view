@@ -29,6 +29,7 @@ const SearchConfiguration = ({ handleFetchRequest }) => {
         from: startDate,
         to: endDate,
       };
+
       handleFetchRequest(query);
     }
   };

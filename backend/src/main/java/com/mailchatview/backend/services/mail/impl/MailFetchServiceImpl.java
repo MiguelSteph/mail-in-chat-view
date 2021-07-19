@@ -181,14 +181,25 @@ public class MailFetchServiceImpl implements MailFetchService {
         String content = "";
         String contentType = "";
 
-        if (MimeTypeUtils.TEXT_HTML_VALUE.equals(part.getMimeType())
-                || MimeTypeUtils.TEXT_PLAIN_VALUE.equals(part.getMimeType())) {
-            content = part.getBody().getData();
-            contentType = getContentType(part);
-        } else {
-            content = part.getParts().get(0).getBody().getData();
-            contentType = getContentType(part.getParts().get(0));
+        try {
+            List<MessagePart> htmlMessageParts = part.getParts().stream()
+                    .filter(item -> item.getMimeType().equals(MimeTypeUtils.TEXT_HTML_VALUE))
+                    .collect(Collectors.toList());
+            if (htmlMessageParts.size() > 0) {
+                content = htmlMessageParts.get(0).getBody().getData();
+                contentType = getContentType(htmlMessageParts.get(0));
+            }
+        } catch (Exception ex) {
+            if (MimeTypeUtils.TEXT_HTML_VALUE.equals(part.getMimeType())
+                    || MimeTypeUtils.TEXT_PLAIN_VALUE.equals(part.getMimeType())) {
+                content = part.getBody().getData();
+                contentType = getContentType(part);
+            } else {
+                content = part.getParts().get(0).getBody().getData();
+                contentType = getContentType(part.getParts().get(0));
+            }
         }
+
         if (content != null) {
             mailDto.setContent(new String(Base64.decodeBase64(content)));
             mailDto.setContentType(contentType);
@@ -249,7 +260,7 @@ public class MailFetchServiceImpl implements MailFetchService {
         return FETCH_QUERY_TEMPLATE
                 .replaceAll(CURRENT_USER_EMAIL_PLACEHOLDER, user.getEmail())
                 .replaceAll(WITH_USER_EMAIL_PLACEHOLDER, fetchQuery.getWith())
-                .replaceAll(DATE_FROM_PLACEHOLDER, fetchQuery.getFrom().format(DateTimeFormatter.ISO_DATE))
-                .replaceAll(DATE_TO_PLACEHOLDER, fetchQuery.getTo().format(DateTimeFormatter.ISO_DATE));
+                .replaceAll(DATE_FROM_PLACEHOLDER, fetchQuery.getFrom().minusDays(1).format(DateTimeFormatter.ISO_DATE))
+                .replaceAll(DATE_TO_PLACEHOLDER, fetchQuery.getTo().plusDays(1).format(DateTimeFormatter.ISO_DATE));
     }
 }

@@ -14,3 +14,12 @@ CREATE TABLE user (
     PRIMARY KEY (id),
     UNIQUE(user_id)
 );
+
+CREATE TABLE jwtsecret (
+    id int not null AUTO_INCREMENT,
+    secret_name varchar(255),
+    secret_algo_name varchar(10),
+    secret_content LONGTEXT,
+    PRIMARY KEY (id),
+    UNIQUE(secret_name)
+)

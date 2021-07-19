@@ -20,7 +20,11 @@ const EasyMailRead = (props) => {
     setFetchingData(true);
     setQuery(fetchQuery);
     const fetchedMails = await mailService.fetchMails({ ...fetchQuery });
-    setMailsList(fetchedMails);
+    if (fetchedMails.hasOwnProperty("error")) {
+      setMailsList(null);
+    } else {
+      setMailsList(fetchedMails);
+    }
     setFetchingData(false);
   };
 

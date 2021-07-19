@@ -7,7 +7,7 @@ import ReceivedMail from "../ReceivedMail/index";
 const FetchMailResult = ({ mailsList }) => {
   return (
     <div className="fetch-result-wrapper">
-      {!mailsList && (
+      {(!mailsList || mailsList.length == 0) && (
         <div className="alert alert-dark" role="alert">
           No mail to display.
         </div>

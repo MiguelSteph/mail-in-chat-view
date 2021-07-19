@@ -10,12 +10,20 @@ const _formatDate = (date) => {
 };
 
 const fetchMails = async (query) => {
-  query.from = _formatDate(query.from);
-  query.to = _formatDate(query.to);
+  try {
+    query.from = _formatDate(query.from);
+    query.to = _formatDate(query.to);
 
-  const response = await authEnhancedAx.post(config.fetchMailsEndPoint, query);
+    const response = await authEnhancedAx.post(
+      config.fetchMailsEndPoint,
+      query
+    );
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return { error: "error" };
+  }
 };
 
 export default {

@@ -30,12 +30,16 @@ const userLoginWithGoogle = async (authCode) => {
 };
 
 const renewAccessToken = async () => {
-  const { data } = await axios.post(
-    config.renewAccessTokenEndPoint,
-    encodeURIComponent(getRefreshToken())
-  );
-  clearTokenFromLocalStorage();
-  if (data && data.accessToken) saveTokenToLocalStorage(data);
+  try {
+    const { data } = await axios.post(
+      config.renewAccessTokenEndPoint,
+      encodeURIComponent(getRefreshToken())
+    );
+    clearTokenFromLocalStorage();
+    if (data && data.accessToken) saveTokenToLocalStorage(data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const logout = () => {
